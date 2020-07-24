@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:world_time/services/world_time.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ChooseLocation extends StatefulWidget {
   @override
@@ -10,17 +11,8 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
-
-  List<WorldTime> locations = [
-    WorldTime(url: 'Europe/London', location: 'London', flag: 'L'),
-    WorldTime(url: 'Europe/Berlin', location: 'Athens', flag: 'B'),
-    WorldTime(url: 'Africa/Cairo', location: 'Cairo', flag: 'C'),
-    WorldTime(url: 'Africa/Nairobi', location: 'Nairobi', flag: 'N'),
-    WorldTime(url: 'America/Chicago', location: 'Chicago', flag: 'C'),
-    WorldTime(url: 'America/New_York', location: 'New York', flag: 'N'),
-    WorldTime(url: 'Asia/Seoul', location: 'Seoul', flag: 'S'),
-    WorldTime(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'J'),
-  ];
+  bool check = true;
+  List<WorldTime> locations = [];
 
   void updateTime(index) async {
     await locations[index].getTime();
@@ -34,18 +26,26 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   @override
   void initState() {
-        super.initState();
-        getData();
+    super.initState();
+    getData();
   }
 
-      
-    
   Future<void> getData() async {
     var url = 'http://worldtimeapi.org/api/timezone';
-    var response = await http.get('http://worldtimeapi.org/api/timezone/$url');
-    Map data = jsonDecode(response.body);
+    var response = await http.get(url);
+    dynamic data = jsonDecode(response.body);
     
-    print(data);
+    setState(() {
+      for(var i=0;i<data.length;i++){
+        // print(data[i]);
+        String loc = data[i].toString();
+        dynamic list = loc.split('/');
+        locations.add(
+          WorldTime(url: loc , location: list[list.length-1], flag: list[list.length-1][0])
+        );
+        check = false;
+      }
+    });
   }
 
   @override
@@ -58,7 +58,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView.builder(
+      body: check ? 
+        Center(
+          child: SpinKitCircle(
+          color: Colors.blue,
+          size: 50.0,
+        ),
+        )
+      : ListView.builder(
         itemCount: locations.length,
         itemBuilder: (context, index) {
           return Padding(
