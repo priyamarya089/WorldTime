@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:world_time/services/world_time.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:auto_animated/auto_animated.dart';
 
 class ChooseLocation extends StatefulWidget {
   @override
@@ -65,25 +66,53 @@ class _ChooseLocationState extends State<ChooseLocation> {
           size: 50.0,
         ),
         )
-      : ListView.builder(
+      : LiveList(
         itemCount: locations.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {
-                  updateTime(index);
-                },
-                title: Text(locations[index].location),
-                leading: CircleAvatar(
-                  child: Text(locations[index].flag),
+        itemBuilder: (context, index, animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(0, 0.3),
+                end: Offset.zero,
+              ).animate(animation),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {
+                      updateTime(index);
+                    },
+                    title: Text(locations[index].location),
+                    leading: CircleAvatar(
+                      child: Text(locations[index].flag),
+                    ),
+                  ),
                 ),
-              ),
+              )
             ),
           );
-        }
-      ),
+        },
+      )
+      // ListView.builder(
+      //   itemCount: locations.length,
+      //   itemBuilder: (context, index) {
+          // return Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+          //   child: Card(
+          //     child: ListTile(
+          //       onTap: () {
+          //         updateTime(index);
+          //       },
+          //       title: Text(locations[index].location),
+          //       leading: CircleAvatar(
+          //         child: Text(locations[index].flag),
+          //       ),
+          //     ),
+          //   ),
+          // );
+      //   }
+      // ),
     );
   }
 }

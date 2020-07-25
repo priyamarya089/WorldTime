@@ -34,16 +34,19 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.white,
       body: Center(
+        // child: Text(
+        //   "World Time",
+        //   style: TextStyle(
+        //     fontSize: 40.0,
+        //     letterSpacing: 2.0
+        //   ),
+        // )
         child: SpinKitCircle(
           color: Colors.white,
           size: 50.0,
         )
-        // child: SpinKitCircle(
-        //   color: Colors.white,
-        //   size: 50.0,
-        // )
       ),
     );
   }

@@ -33,6 +33,7 @@ dev_dependencies:
   http: ^0.12.0
   intl: ^0.16.1
   flutter_spinkit: "^4.1.2"
+  auto_animated: ^2.1.0
   flutter_test:
     sdk: flutter
 

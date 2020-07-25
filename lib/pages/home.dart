@@ -87,10 +87,10 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: null,
-          tooltip: "Add",
-          child: Icon(Icons.add),),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: null,
+        //   tooltip: "Add",
+        //   child: Icon(Icons.add),),
       );
   }
 }
